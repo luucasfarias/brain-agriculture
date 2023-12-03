@@ -1,0 +1,301 @@
+{
+  "farmers": [
+    {
+      "id": 1,
+      "name": "Ademar da costa bizerra",
+      "cpf_cnpj": "555.555.552-12",
+      "city": "Anapolis",
+      "state": "Goias",
+      "totalFarmArea": "2000000",
+      "totalArableArea": "32424234",
+      "totalVegetationArea": "32424234",
+      "crops": [
+        {
+          "name": "Algodão"
+        },
+        {
+          "name": "Café"
+        },
+        {
+          "name": "Milho"
+        },
+        {
+          "name": "Soja"
+        },
+        {
+          "name": "Cana de açucar"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "João da silva modesto",
+      "cpf_cnpj": "555.555.552-12",
+      "city": "Anapolis",
+      "state": "Goias",
+      "totalFarmArea": "2000000",
+      "totalArableArea": "32424234",
+      "totalVegetationArea": "32424234",
+      "crops": [
+        {
+          "name": "Algodão"
+        },
+        {
+          "name": "Café"
+        },
+        {
+          "name": "Milho"
+        },
+        {
+          "name": "Soja"
+        },
+        {
+          "name": "Cana de açucar"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Ademar da costa bizerra",
+      "cpf_cnpj": "555.555.552-12",
+      "city": "Anapolis",
+      "state": "Goias",
+      "totalFarmArea": "2000000",
+      "totalArableArea": "32424234",
+      "totalVegetationArea": "32424234",
+      "crops": [
+        {
+          "name": "Algodão"
+        },
+        {
+          "name": "Café"
+        },
+        {
+          "name": "Milho"
+        },
+        {
+          "name": "Soja"
+        },
+        {
+          "name": "Cana de açucar"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Ademar da costa bizerra",
+      "cpf_cnpj": "555.555.552-12",
+      "city": "Anapolis",
+      "state": "Goias",
+      "totalFarmArea": "2000000",
+      "totalArableArea": "32424234",
+      "totalVegetationArea": "32424234",
+      "crops": [
+        {
+          "name": "Algodão"
+        },
+        {
+          "name": "Café"
+        },
+        {
+          "name": "Milho"
+        },
+        {
+          "name": "Soja"
+        },
+        {
+          "name": "Cana de açucar"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Ademar da costa bizerra",
+      "cpf_cnpj": "555.555.552-12",
+      "city": "Anapolis",
+      "state": "Goias",
+      "totalFarmArea": "2000000",
+      "totalArableArea": "32424234",
+      "totalVegetationArea": "32424234",
+      "crops": [
+        {
+          "name": "Algodão"
+        },
+        {
+          "name": "Café"
+        },
+        {
+          "name": "Milho"
+        },
+        {
+          "name": "Soja"
+        },
+        {
+          "name": "Cana de açucar"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Ademar da costa bizerra",
+      "cpf_cnpj": "555.555.552-12",
+      "city": "Anapolis",
+      "state": "Goias",
+      "totalFarmArea": "2000000",
+      "totalArableArea": "32424234",
+      "totalVegetationArea": "32424234",
+      "crops": [
+        {
+          "name": "Algodão"
+        },
+        {
+          "name": "Café"
+        },
+        {
+          "name": "Milho"
+        },
+        {
+          "name": "Soja"
+        },
+        {
+          "name": "Cana de açucar"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Ademar da costa bizerra",
+      "cpf_cnpj": "555.555.552-12",
+      "city": "Anapolis",
+      "state": "Goias",
+      "totalFarmArea": "2000000",
+      "totalArableArea": "32424234",
+      "totalVegetationArea": "32424234",
+      "crops": [
+        {
+          "name": "Algodão"
+        },
+        {
+          "name": "Café"
+        },
+        {
+          "name": "Milho"
+        },
+        {
+          "name": "Soja"
+        },
+        {
+          "name": "Cana de açucar"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Ademar da costa bizerra",
+      "cpf_cnpj": "555.555.552-12",
+      "city": "Anapolis",
+      "state": "Goias",
+      "totalFarmArea": "2000000",
+      "totalArableArea": "32424234",
+      "totalVegetationArea": "32424234",
+      "crops": [
+        {
+          "name": "Algodão"
+        },
+        {
+          "name": "Café"
+        },
+        {
+          "name": "Milho"
+        },
+        {
+          "name": "Soja"
+        },
+        {
+          "name": "Cana de açucar"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Ademar da costa bizerra",
+      "cpf_cnpj": "555.555.552-12",
+      "city": "Anapolis",
+      "state": "Goias",
+      "totalFarmArea": "2000000",
+      "totalArableArea": "32424234",
+      "totalVegetationArea": "32424234",
+      "crops": [
+        {
+          "name": "Algodão"
+        },
+        {
+          "name": "Café"
+        },
+        {
+          "name": "Milho"
+        },
+        {
+          "name": "Soja"
+        },
+        {
+          "name": "Cana de açucar"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Ademar da costa bizerra",
+      "cpf_cnpj": "555.555.552-12",
+      "city": "Anapolis",
+      "state": "Goias",
+      "totalFarmArea": "2000000",
+      "totalArableArea": "32424234",
+      "totalVegetationArea": "32424234",
+      "crops": [
+        {
+          "name": "Algodão"
+        },
+        {
+          "name": "Café"
+        },
+        {
+          "name": "Milho"
+        },
+        {
+          "name": "Soja"
+        },
+        {
+          "name": "Cana de açucar"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Ademar da costa bizerra",
+      "cpf_cnpj": "555.555.552-12",
+      "city": "Anapolis",
+      "state": "Goias",
+      "totalFarmArea": "2000000",
+      "totalArableArea": "32424234",
+      "totalVegetationArea": "32424234",
+      "crops": [
+        {
+          "name": "Algodão"
+        },
+        {
+          "name": "Café"
+        },
+        {
+          "name": "Milho"
+        },
+        {
+          "name": "Soja"
+        },
+        {
+          "name": "Cana de açucar"
+        }
+      ]
+    }
+  ]
+}
