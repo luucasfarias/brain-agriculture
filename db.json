@@ -1,0 +1,20 @@
+{
+  "farmers": [
+    {
+      "name": "Novoo  produtor",
+      "nameFarm": "fazenda teste",
+      "city": "sao luis",
+      "state": "MA",
+      "totalFarmArea": "1212",
+      "totalArableArea": "121",
+      "totalVegetationArea": "2121",
+      "crops": [
+        {
+          "label": "Café",
+          "value": "coffee"
+        }
+      ],
+      "id": 1
+    }
+  ]
+}
