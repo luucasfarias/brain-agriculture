@@ -5,6 +5,7 @@ export interface Farmer {
   cpf_cnpj: string
   city: string
   state: string
+  crops: Crop[]
   totalFarmArea: number
   totalArableArea: number
   totalVegetationArea: number
