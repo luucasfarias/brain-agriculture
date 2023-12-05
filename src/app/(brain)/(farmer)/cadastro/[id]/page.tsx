@@ -1,6 +1,6 @@
 import Form from "../../../../../components/form"
 
-const getFarmer = async (id: number) => {
+export const getFarmer = async (id: number) => {
   const response = await fetch(`http://localhost:3001/farmers/${id}`)
   return response.json()
 }
