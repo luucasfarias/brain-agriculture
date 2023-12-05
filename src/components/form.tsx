@@ -3,7 +3,7 @@ import { useFarmer } from "@/contexts/farmer-context";
 import { Farmer } from "@/data/types/farmer";
 import { STATES_DATA } from "@/data/utils/states-data";
 import { Button, Flex } from "@radix-ui/themes";
-import { ArrowLeft, Loader } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
@@ -78,16 +78,6 @@ export default function Form({ data, id }: FormProps) {
   }
 
   async function handleNewFarmer(data: Farmer) {
-    console.log('data', data);
-
-    // if (documento === 'CPF') {
-    //   const cpfIsValid = validateCPF(data.cpf_cnpj);
-    //   setValidDocument(cpfIsValid)
-    // } else {
-    //   const cnpjIsValid = validateCNPJ(data.cpf_cnpj);
-    //   setValidDocument(cnpjIsValid)
-    // }
-
     requestNewFarmer(data)
   }
 
