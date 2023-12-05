@@ -19,7 +19,6 @@ export function Header() {
           />
           <Text weight="medium" size="2">Girmay</Text>
         </div>
-
       </div>
     </div>
   )

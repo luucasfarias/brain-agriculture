@@ -4,7 +4,7 @@ import { Button } from "@radix-ui/themes";
 import { UserPlus } from "lucide-react";
 import { useRouter } from 'next/navigation'
 
-export default function AddNewProductorNavigation() {
+export default function NewFarmerNavigate() {
   const router = useRouter()
 
   const handleNavigation = () => {
@@ -13,9 +13,9 @@ export default function AddNewProductorNavigation() {
 
   return (
     <div>
-      <Button size="3" color="blue" className="cursor-pointer" onClick={() => handleNavigation()}>
-        <UserPlus />
-        Adicionar novo produtor
+      <Button size="3" className="cursor-pointer bg-blue-500" onClick={() => handleNavigation()}>
+        <UserPlus color="#fff" />
+        Novo produtor
       </Button>
     </div>
   )

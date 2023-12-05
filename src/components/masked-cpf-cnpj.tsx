@@ -1,4 +1,6 @@
-import { ChangeEvent, useState } from "react";
+'use client'
+
+import { ChangeEvent } from "react";
 import InputMask from 'react-input-mask';
 
 interface MaskedInputProps {

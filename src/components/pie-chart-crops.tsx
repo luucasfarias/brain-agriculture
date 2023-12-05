@@ -1,4 +1,5 @@
 'use client'
+
 import { useFarmer } from "@/contexts/farmer-context"
 import { Farmer } from "@/data/types/farmer";
 import { Box, Card } from "@radix-ui/themes"

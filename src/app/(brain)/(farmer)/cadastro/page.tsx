@@ -1,9 +1,9 @@
-import NewForm from "../register/components/newform"
+import Form from "../../../../components/form"
 
 export default async function Cadastro() {
   return (
     <div>
-      <NewForm />
+      <Form />
     </div>
   )
 }

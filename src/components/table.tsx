@@ -1,17 +1,14 @@
 'use client'
-import EditButton from "@/app/(brain)/(farmer)/produtores/components/edit-button"
+import EditButton from "@/components/edit-button"
+import NewFarmerNavigate from "@/components/new-farmer-navigate"
 import { useFarmer } from "@/contexts/farmer-context"
 import { AlertDialog, Button, Flex, Table } from "@radix-ui/themes"
-
-import { Trash2, UserPlus } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { Trash2 } from "lucide-react"
 import { useEffect } from "react"
-
 import { toast } from "react-toastify"
 
 export function TableFarmers() {
   const { farmers, updateFarmers } = useFarmer()
-  const { push } = useRouter()
 
   const handleRemove = (id: number) => {
     removeProductor(id);
@@ -44,13 +41,11 @@ export function TableFarmers() {
 
   return (
     <div className="">
-      <Flex justify="end" mb="4">
-        <Button size="3" className="cursor-pointer bg-blue-500" onClick={() => push('/cadastro')}>
-          <UserPlus />
-          Novo produtor
-        </Button>
+      <Flex justify="end" mb="4" gap="2">
+        <NewFarmerNavigate />
       </Flex>
-      <Table.Root size="2">
+
+      <Table.Root size="2" className="max-h-80 overflow-auto">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell width={270}>Produtor</Table.ColumnHeaderCell>

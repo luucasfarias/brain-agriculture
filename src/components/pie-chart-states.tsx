@@ -1,6 +1,6 @@
 'use client'
+
 import { useFarmer } from "@/contexts/farmer-context"
-import { ChartBarIcon } from "@heroicons/react/20/solid"
 import { Box, Card } from "@radix-ui/themes"
 import Chart from "react-google-charts";
 

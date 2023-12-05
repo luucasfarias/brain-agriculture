@@ -17,7 +17,7 @@ type FormProps = {
   id?: number
 }
 
-export default function NewForm({ data, id }: FormProps) {
+export default function Form({ data, id }: FormProps) {
   const [documento, setDocumento] = useState('CPF')
   const [validDocument, setValidDocument] = useState(true)
   const [errorArea, setErrorArea] = useState(false)

@@ -1,16 +1,16 @@
-import NewForm from "../../register/components/newform"
+import Form from "../../../../../components/form"
 
-const getProdutor = async (id: number) => {
+const getFarmer = async (id: number) => {
   const response = await fetch(`http://localhost:3001/farmers/${id}`)
   return response.json()
 }
 
 export default async function CadastroEdit({ params }: { params: { id: number } }) {
-  const productor = await getProdutor(params.id)
+  const farmer = await getFarmer(params.id)
 
   return (
     <div>
-      <NewForm data={productor} id={productor.id} />
+      <Form data={farmer} id={farmer.id} />
     </div>
   )
 }

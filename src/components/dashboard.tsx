@@ -89,8 +89,8 @@ export default function Dashboard({ dataFarmers }: DashboardProps) {
 
         <PieChartStates />
 
-        <Box height="9" pt="8">
-          <Card >
+        <Box height="7" pt="8">
+          <Card>
             <TableFarmers />
           </Card>
         </Box>
