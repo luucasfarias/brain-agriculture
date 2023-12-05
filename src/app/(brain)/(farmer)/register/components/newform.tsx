@@ -1,45 +1,31 @@
 'use client'
-import { MaskedCpfCnpj } from "@/components/masked-cpf-cnpj";
+import { useFarmer } from "@/contexts/farmer-context";
 import { Farmer } from "@/data/types/farmer";
-import { UF_DATA } from "@/data/utils/uf";
-import { ChangeEvent, useState } from "react";
-import { Controller, SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form"
+import { STATES_DATA } from "@/data/utils/states-data";
+import { Button, Flex } from "@radix-ui/themes";
+import { ArrowLeft, Loader } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { MultiSelect } from "react-multi-select-component";
 import { toast } from "react-toastify";
-
-type FormData = {
-  id: number
-  name: string
-  nameFarm: string
-  cpf_cnpj: string
-  city: string
-  state: string
-  totalFarmArea: number
-  totalArableArea: number
-  totalVegetationArea: number
-  crops: Crop[]
-};
-
-type Crop = {
-  value: FormData
-  label: string
-}
+import InputMask from 'react-input-mask';
+import { overrideStrings } from "@/data/utils/override-string";
 
 type FormProps = {
-  data?: FormData
+  data?: Farmer
   id?: number
 }
 
 export default function NewForm({ data, id }: FormProps) {
-  const [mask, setMask] = useState('')
-  const [documento, setDocumento] = useState('')
-  const [areaFarm, setAreaFarm] = useState(0)
-  const [arableArea, setArableArea] = useState(0)
-  const [vegetableArea, setVegetableArea] = useState(0)
+  const [documento, setDocumento] = useState('CPF')
+  const [validDocument, setValidDocument] = useState(true)
+  const [errorArea, setErrorArea] = useState(false)
+  const { addFarmer } = useFarmer()
 
-  const ufs = UF_DATA
+  const states = STATES_DATA
   const requiredField = 'Este campo é obrigatório'
-  const options = [
+  const cropsOptions = [
     { label: "Café", value: "cafe" },
     { label: "Soja", value: "soja" },
     { label: "Milho", value: "milho" },
@@ -53,8 +39,8 @@ export default function NewForm({ data, id }: FormProps) {
     register,
     control,
     reset,
-    formState: { errors },
-  } = useForm<FormData>(
+    formState: { errors, isSubmitting, isValid },
+  } = useForm<Farmer>(
     {
       defaultValues: data
     }
@@ -68,15 +54,7 @@ export default function NewForm({ data, id }: FormProps) {
     return 'cadastrar'
   }
 
-  const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-    if (!id) {
-      addNewProductor(data)
-    } else {
-      editProductor(id, data)
-    }
-  }
-
-  async function addNewProductor(data: FormData) {
+  async function requestNewFarmer(data: Farmer) {
     try {
       const response = await fetch('http://localhost:3001/farmers', {
         method: 'POST',
@@ -85,11 +63,13 @@ export default function NewForm({ data, id }: FormProps) {
           'content-type': 'application/json'
         }
       })
+
       if (response.ok) {
         toast('Cadastro realizado com sucesso!', { theme: 'light', type: 'success' })
+        addFarmer(data)
         reset();
       } else {
-        toast('Ops! Algo deu errado com esta transação, tente novamente.', { theme: 'light', type: 'error' })
+        toast('Ops! Algo deu errado com esta transação, tente novamente.', { theme: 'light', type: 'error' });
       }
     } catch (error) {
       console.error(error)
@@ -97,8 +77,21 @@ export default function NewForm({ data, id }: FormProps) {
     }
   }
 
-  async function editProductor(id: number, data: FormData) {
-    console.log('editar produtor');
+  async function handleNewFarmer(data: Farmer) {
+    console.log('data', data);
+
+    // if (documento === 'CPF') {
+    //   const cpfIsValid = validateCPF(data.cpf_cnpj);
+    //   setValidDocument(cpfIsValid)
+    // } else {
+    //   const cnpjIsValid = validateCNPJ(data.cpf_cnpj);
+    //   setValidDocument(cnpjIsValid)
+    // }
+
+    requestNewFarmer(data)
+  }
+
+  async function requestEditFarmer(id: number, data: Farmer) {
     try {
       const response = await fetch(`http://localhost:3001/farmers/${id}`, {
         method: 'PUT',
@@ -107,6 +100,7 @@ export default function NewForm({ data, id }: FormProps) {
           'content-type': 'application/json'
         }
       })
+
       if (response.ok) {
         toast('Edição realizada com sucesso!', { theme: 'light', type: 'success' })
       } else {
@@ -117,48 +111,39 @@ export default function NewForm({ data, id }: FormProps) {
     }
   }
 
-  const onError: SubmitErrorHandler<FormData> = (errors) => console.log(errors);
-
-  const handleDocumentoChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-  }
-
-  const validateAreaFarm = (e: any) => {
-    console.log(e.target.value)
-    setAreaFarm(e.target.value)
-  }
-
-  const validateAreaArable = (e: any) => {
-    setArableArea(e.target.value)
-  }
-
-  const validateAreaVegetable = (e: any) => {
-    setVegetableArea(e.target.value)
-  }
-
-  const calculateArea = () => {
-    console.log(vegetableArea, arableArea);
-    const soma = vegetableArea + arableArea
-    if (soma > areaFarm) {
-      toast('A area total da fazenda nao pode ser menor que a soma das areas agricultaveis', { type: 'error', autoClose: 5000 })
+  const onSubmit: SubmitHandler<Farmer> = async (data: Farmer) => {
+    if (!id) {
+      handleNewFarmer(data)
+      return;
     }
 
+    requestEditFarmer(id, data)
   }
+
+  const overrideStringsMultiselect = overrideStrings
+
   return (
     <div className="isolate bg-white px-6 py-2 sm:py-4 lg:px-8">
-      {/* <ToastContainer /> */}
+      <Link href="/">
+        <Flex gap="1">
+          <ArrowLeft size={20} color="#0d0c0c" />
+          Voltar
+        </Flex>
+      </Link>
+
       <div
         className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
         aria-hidden="true"
       >
         <div
-          className="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
+          className="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#80c2ff] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
           style={{
             clipPath:
               "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
           }}
         />
       </div>
+
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl capitalize">
           {dynamicLabel()} produtor
@@ -168,7 +153,7 @@ export default function NewForm({ data, id }: FormProps) {
         </p>
       </div>
       <form
-        onSubmit={handleSubmit(onSubmit, onError)}
+        onSubmit={handleSubmit(onSubmit)}
         className="mx-auto mt-16 max-w-xl sm:mt-20"
       >
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
@@ -217,18 +202,30 @@ export default function NewForm({ data, id }: FormProps) {
                 </select>
               </div>
               <Controller
-                {...register('cpf_cnpj',)}
+                {...register('cpf_cnpj', { required: true })}
                 control={control}
                 name="cpf_cnpj"
                 render={({ field: { onChange, value } }) => (
-                  <MaskedCpfCnpj type="text" name="cpf_cnpj" value={value} onChange={handleDocumentoChange} mask={documento === 'CPF' ? '999.999.999-99' : '99.999.999/9999-99'}
-                    classValue="shadow appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                  <InputMask
+                    className="shadow appearance-none border rounded w-full py-2 pr-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    type="text"
+                    name="cpf_cnpj"
+                    value={value}
+                    onChange={onChange}
+                    mask={documento === 'CPF' ? '999.999.999-99' : '99.999.999/9999-99'}
+                  ></InputMask>
                 )}
               />
-              {errors?.cpf_cnpj && (
-                <span className="text-red-700">{errors.cpf_cnpj.message}</span>
-              )}
+
             </div>
+            {errors?.cpf_cnpj && (
+              <span className="text-red-700">{errors.cpf_cnpj.message}</span>
+            )}
+
+            {!validDocument && (
+              <span className="text-red-700">Este documento nao é valido</span>
+            )}
+
           </div>
           <div className="sm:col-span-2">
             <label
@@ -282,9 +279,9 @@ export default function NewForm({ data, id }: FormProps) {
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               >
                 {
-                  ufs.map((uf, index) => {
+                  states.map((state, index) => {
                     return (
-                      <option key={index} value={uf.sigla}>{uf.nome}</option>
+                      <option key={index} value={state.acronym}>{state.name}</option>
                     )
                   })
                 }
@@ -304,12 +301,12 @@ export default function NewForm({ data, id }: FormProps) {
 
             <div className="mt-2.5">
               <input
-                {...register('totalFarmArea', { required: requiredField })}
+                {...register('totalFarmArea', { required: requiredField, setValueAs: (value) => Number(value) })}
                 type="number"
                 name="totalFarmArea"
-                onChange={validateAreaFarm}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
+
               {errors?.totalFarmArea && (
                 <span className="text-red-700">{errors.totalFarmArea.message}</span>
               )}
@@ -325,10 +322,9 @@ export default function NewForm({ data, id }: FormProps) {
 
             <div className="mt-2.5">
               <input
-                {...register('totalArableArea', { required: requiredField })}
+                {...register('totalArableArea', { required: requiredField, setValueAs: (value) => Number(value) })}
                 type="number"
                 name="totalArableArea"
-                onChange={validateAreaArable}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
               {errors?.totalArableArea && (
@@ -346,11 +342,9 @@ export default function NewForm({ data, id }: FormProps) {
 
             <div className="mt-2.5">
               <input
-                {...register('totalVegetationArea', { required: requiredField })}
+                {...register('totalVegetationArea', { required: requiredField, setValueAs: (value) => Number(value) })}
                 type="number"
                 name="totalVegetationArea"
-                onChange={validateAreaVegetable}
-                onBlur={calculateArea}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
               {errors?.totalVegetationArea && (
@@ -373,10 +367,11 @@ export default function NewForm({ data, id }: FormProps) {
                 name="crops"
                 render={({ field: { onChange, value } }) => (
                   <MultiSelect
-                    options={options}
+                    options={cropsOptions}
                     value={value ? value : []}
                     onChange={onChange}
-                    labelledBy="Selecione"
+                    labelledBy=""
+                    overrideStrings={overrideStringsMultiselect}
                   />
                 )}
               />
@@ -386,13 +381,18 @@ export default function NewForm({ data, id }: FormProps) {
             </div>
           </div>
         </div>
+        <div className="mt-3">
+          {
+            errorArea && (
+              <span className="text-red-700">A area total da fazenda nao pode ser menor que a soma das areas agricultaveis</span>
+            )
+          }
+        </div>
         <div className="mt-10">
-          <button
-            type="submit"
-            className="block w-full rounded-md capitalize bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
+          <Button type="submit" size="3" className="block w-full rounded-md capitalize cursor-pointer px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm bg-blue-500 disabled:pointer-events-none hover:bg-blue-700 hover:cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+            disabled={isSubmitting || !isValid}>
             {dynamicLabel()}
-          </button>
+          </Button>
         </div>
       </form>
     </div>
