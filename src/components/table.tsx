@@ -1,35 +1,27 @@
 'use client'
 import EditButton from "@/app/(brain)/(farmer)/produtores/components/edit-button"
-import RemoveButton from "@/app/(brain)/(farmer)/produtores/components/remove-button"
-import { Farmer } from "@/data/types/farmer"
+import { useFarmer } from "@/contexts/farmer-context"
 import { AlertDialog, Button, Flex, Table } from "@radix-ui/themes"
 
-import { Trash2, Pencil } from "lucide-react"
-import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { Trash2, UserPlus } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
+
 import { toast } from "react-toastify"
 
-interface TableFarmerProps {
-  data: Farmer[],
-  onAction?: (id: number) => void,
-}
-
-export function TableFarmers({ data }: TableFarmerProps) {
-  // const { push } = useRouter()
-  const [list, setList] = useState<Farmer[]>(data)
-
-  const handleClick = (id: number) => {
-    console.log(id);
-
-    // removeProductor(id)
-  }
+export function TableFarmers() {
+  const { farmers, updateFarmers } = useFarmer()
+  const { push } = useRouter()
 
   const handleRemove = (id: number) => {
     removeProductor(id);
   }
 
+  useEffect(() => {
+    updateFarmers(farmers)
+  }, [])
+
   async function removeProductor(id: number) {
-    console.log('remove produtor', id);
     try {
       const response = await fetch(`http://localhost:3001/farmers/${id}`, {
         method: 'DELETE',
@@ -38,9 +30,9 @@ export function TableFarmers({ data }: TableFarmerProps) {
         }
       })
       if (response.ok) {
-        const updateList = list.filter(item => item.id !== id)
-        setList(updateList)
+        const updateList = farmers.filter(item => item.id !== id)
 
+        updateFarmers(updateList)
         toast('Remoção realizada com sucesso!', { theme: 'light', type: 'success' })
       } else {
         toast('Ops! Algo deu errado com esta transação, tente novamente.', { theme: 'light', type: 'error' })
@@ -50,40 +42,30 @@ export function TableFarmers({ data }: TableFarmerProps) {
     }
   }
 
-  useEffect(() => {
-    setList(data)
-  }, [])
-
   return (
     <div className="">
-      <Table.Root variant="surface" size="2">
+      <Flex justify="end" mb="4">
+        <Button size="3" className="cursor-pointer bg-blue-500" onClick={() => push('/cadastro')}>
+          <UserPlus />
+          Novo produtor
+        </Button>
+      </Flex>
+      <Table.Root size="2">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell width={270}>Nome do produtor</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell width={255}>Nome da Fazenda</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>CPF ou CNPJ</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Cidade</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Estado</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Área total fazenda</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Área agricultável</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Área de vegetação</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width={270}>Produtor</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell width={255}>Fazenda</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell justify="center">Ações</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {
-            list.map((farm, index) => {
+            farmers.map((farm, index) => {
               return (
                 <Table.Row key={farm.id + index}>
                   <Table.RowHeaderCell>{farm.name}</Table.RowHeaderCell>
                   <Table.Cell>{farm.nameFarm}</Table.Cell>
-                  <Table.Cell>{farm.cpf_cnpj}</Table.Cell>
-                  <Table.Cell>{farm.city}</Table.Cell>
-                  <Table.Cell>{farm.state}</Table.Cell>
-                  <Table.Cell>{farm.totalFarmArea}</Table.Cell>
-                  <Table.Cell>{farm.totalArableArea}</Table.Cell>
-                  <Table.Cell>{farm.totalVegetationArea}</Table.Cell>
                   <Table.Cell>
                     <Flex justify="between" gap="2">
                       <EditButton id={farm.id} />
@@ -114,7 +96,6 @@ export function TableFarmers({ data }: TableFarmerProps) {
                           </Flex>
                         </AlertDialog.Content>
                       </AlertDialog.Root>
-                      {/* <RemoveButton id={farm.id} handleClick={() => handleClick} /> */}
                     </Flex>
                   </Table.Cell>
                 </Table.Row>
