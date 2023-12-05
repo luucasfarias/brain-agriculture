@@ -18,6 +18,7 @@
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-google-charts": "^4.0.1",
     "react-hook-form": "^7.48.2",
     "react-input-mask": "^2.0.4",
     "react-multi-select-component": "^4.3.4",
