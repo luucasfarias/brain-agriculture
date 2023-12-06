@@ -11,14 +11,14 @@ type EditProps = {
 export default function EditButton({ id }: EditProps) {
   const router = useRouter()
 
-  const navigateToEditProductor = (id: number) => {
+  const navigateToEditFarmer = (id: number) => {
     console.log('aq', id);
     router.push(`/cadastro/${id}`)
   }
 
   return (
     <>
-      <Button color="grass" onClick={() => navigateToEditProductor(id)}>
+      <Button color="grass" onClick={() => navigateToEditFarmer(id)}>
         <Pencil size="17" />
       </Button>
     </>
