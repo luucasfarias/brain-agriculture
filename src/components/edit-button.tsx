@@ -12,7 +12,6 @@ export default function EditButton({ id }: EditProps) {
   const router = useRouter()
 
   const navigateToEditFarmer = (id: number) => {
-    console.log('aq', id);
     router.push(`/cadastro/${id}`)
   }
 
